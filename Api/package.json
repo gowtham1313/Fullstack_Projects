@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start-build": "npx tsc && nodemon dist",
-    "start-server": "node index.js"
+    "start-server": "node index.js",
+    "start": "npx ts-node index.ts"
   },
   "keywords": [],
   "author": "Gowtham Rajaa",
