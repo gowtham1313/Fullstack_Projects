@@ -81,7 +81,8 @@ class CommonDao {
             let finalSegments = "";
 
             for (const [idx, element] of elementNameArray.entries()) {
-                let elementName = element.replace(/([\w])[\s|-|\/]([\w])/g, '$1_$2');
+                // let elementName = element.replace(/([\w])[\s|-|\/]([\w])/g, '$1_$2');
+                let elementName = element.replace(/[\s.,*\/\-\|\\]+/g, '_');
                 console.log(elementName);
                 xsdElementArray.push(await this.getXsdElement(elementName, idx + 1));
                 finalSegments = xsdElementArray.join('');
