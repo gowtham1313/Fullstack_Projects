@@ -1,0 +1,33 @@
+{
+  "name": "common-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-build": "npx tsc && nodemon dist",
+    "start-server": "node index.js"
+  },
+  "keywords": [],
+  "author": "Gowtham Rajaa",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.11",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "http-status-codes": "^2.3.0",
+    "typescript": "^5.4.5",
+    "vm2": "^3.9.19"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.11",
+    "ts-node": "^10.8.1",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "npm": ">=8.0.0 <=10.9.0",
+    "node": ">=18.10.0 <19.0.0"
+  }
+}

@@ -1,0 +1,29 @@
+{
+    "name": "mongo_db-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start-build": "npx tsc && nodemon dist",
+        "start-server": "node index.js"
+    },
+    "keywords": [],
+    "author": "Gowtham Rajaa",
+    "license": "ISC",
+    "dependencies": {
+        "@types/express": "^4.17.21",
+        "@types/node": "^20.12.11",
+        "mongoose": "^8.3.4",
+        "typescript": "^5.4.5"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/node": "^20.12.11",
+        "ts-node": "^10.8.1",
+        "typescript": "^5.4.5"
+    },
+    "engines": {
+        "npm": ">=8.0.0 <=10.2.4",
+        "node": ">=18.10.0 <19.0.0"
+    }
+}
