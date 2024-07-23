@@ -16,4 +16,4 @@ components:
         value: production
     run:
       command: npm start
-      port: 3000  # Adjust if your application runs on a different port
+      port: 8575  # Adjust if your application runs on a different port
