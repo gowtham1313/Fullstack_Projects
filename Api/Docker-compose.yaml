@@ -1,0 +1,19 @@
+version: 1
+name: NodeJS API Deployment
+
+components:
+  - name: nodejs-api
+    source:
+      type: GIT
+      repository: https://github.com/gowtham1313/Fullstack_Projects
+      branch: main
+      directory: /Api/src  # Adjust this based on your project structure
+    build:
+      buildpack: nodejs
+      version: 14  # Specify the Node.js version you are using
+    env:
+      - key: NODE_ENV
+        value: production
+    run:
+      command: npm start
+      port: 8575  # Adjust if your application runs on a different port
