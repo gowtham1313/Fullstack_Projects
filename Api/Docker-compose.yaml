@@ -1,13 +1,19 @@
-version: '3.8'
+version: 1
+name: NodeJS API Deployment
 
-services:
-  nodeapp:
-    build: .
-    container_name: nodeapp
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/usr/src/app
-    environment:
-      NODE_ENV: development
-    command: npm start
+components:
+  - name: nodejs-api
+    source:
+      type: GIT
+      repository: https://github.com/gowtham1313/Fullstack_Projects
+      branch: main
+      directory: /Api/src  # Adjust this based on your project structure
+    build:
+      buildpack: nodejs
+      version: 14  # Specify the Node.js version you are using
+    env:
+      - key: NODE_ENV
+        value: production
+    run:
+      command: npm start
+      port: 3000  # Adjust if your application runs on a different port
