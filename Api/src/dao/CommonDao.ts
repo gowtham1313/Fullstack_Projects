@@ -132,7 +132,7 @@ class CommonDao {
         return content;
     };
 
-    updateXsdFile = async (xsdDataBuffer: any, newNamesList: any[], updatedXsdPath: string): Promise<void> => {
+    updateXsdFile = async (xsdDataBuffer: any, newNamesList: any[], updatedXsdPath: string) => {
         try {
             // Read the XSD file with UTF-16 encoding and convert it to a UTF-8 string
             let xsdData = iconv.decode(xsdDataBuffer, 'utf-16');
@@ -175,18 +175,22 @@ class CommonDao {
             }
 
             const updatedXsdData = builder.buildObject(result);
-            fs.writeFileSync(updatedXsdPath, updatedXsdData, 'utf8');
+            if (!fs.existsSync(updatedXsdPath)) {
+                fs.writeFileSync(updatedXsdPath, updatedXsdData, 'utf8');
+            } else {
+                return updatedXsdData;
+            }
         } catch (error: any) {
             console.error('Error updating XSD file:', error.message);
             throw error; // Re-throw the error to handle it in the calling function
         }
     };
 
-    editXsdColumn = async (xsdDataBuffer: string, nameFileContent: string, updatedXsdFilePath: string,req:any): Promise<void> => {
+    editXsdColumn = async (xsdDataBuffer: string, nameFileContent: string, updatedXsdFilePath: string,req:any) => {
         try {
             let newNames: any = await this.processNames(nameFileContent,req);
             newNames = newNames.map((innerArray: any) => innerArray.filter(Boolean));
-            await this.updateXsdFile(xsdDataBuffer, newNames, updatedXsdFilePath);
+            return await this.updateXsdFile(xsdDataBuffer, newNames, updatedXsdFilePath);
         } catch (error: any) {
             console.error('Error editing XSD column:', error.message);
             throw error; // Re-throw the error to handle it in the calling function

@@ -73,9 +73,13 @@ class CommonController {
             const nameFileContent = req.files?.namesFile?.[0]?.buffer.toString();
 
             const updatedXsdFilePath = req.body?.filePath ? path.join(req.body.filePath, xsdFileName) : path.join(path.resolve(os.homedir(), 'downloads'), xsdFileName);
-            await mainDao.editXsdColumn(xsdDataBuffer, nameFileContent, updatedXsdFilePath, req);
-
-            let yvpResponse = new commonAPIResponse(StatusCodes.OK, "CHANGE_FIELD_NAME", " ", "Success", [{updatedXsdFilePath}]);
+            let data = await mainDao.editXsdColumn(xsdDataBuffer, nameFileContent, updatedXsdFilePath, req);
+            let yvpResponse;
+            if (data) {
+                yvpResponse = new commonAPIResponse(StatusCodes.OK, "CHANGE_FIELD_NAME", " ", "Success", [{data}]);
+            } else {
+                yvpResponse = new commonAPIResponse(StatusCodes.OK, "CHANGE_FIELD_NAME", " ", "Success", [{updatedXsdFilePath}]);
+            }
             res.status(StatusCodes.OK).send(yvpResponse);
         } catch (e: any) {
             // @ts-ignore
