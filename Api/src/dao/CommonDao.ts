@@ -175,7 +175,7 @@ class CommonDao {
             }
 
             const updatedXsdData = builder.buildObject(result);
-            if (!fs.existsSync(updatedXsdPath)) {
+            if (fs.existsSync(updatedXsdPath)) {
                 fs.writeFileSync(updatedXsdPath, updatedXsdData, 'utf8');
             } else {
                 return updatedXsdData;
