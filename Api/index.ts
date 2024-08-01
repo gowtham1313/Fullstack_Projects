@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 require('dotenv').config();
-//Route imports
+// Route imports
 const mainRoute = require('./src/route/CommonRoute');
 
 const app = express();
@@ -17,7 +17,7 @@ app.listen(process.env.PORT, () => {
     }
 })
 
-//Route PATH
+// Route PATH
 const defaultPath = '/commonAPI/api';
 app.use(defaultPath, mainRoute);
 

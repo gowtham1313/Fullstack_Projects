@@ -1,6 +1,8 @@
 export {};
 const {NodeVM} = require('vm2');
-let fs = require('fs');
+import * as fs from 'fs';
+import * as xml2js from 'xml2js';
+import * as iconv from 'iconv-lite';
 
 class CommonDao {
     processRunFunction1 = async (res: any, req: any) => {
@@ -106,14 +108,94 @@ class CommonDao {
     getXsdElement = async function (name: any, index: any) {
         return `<xs:element name="${name}" type="xs:string"><xs:annotation><xs:appinfo><b:fieldInfo justification="left" sequence_number="${index}" /></xs:appinfo></xs:annotation></xs:element>`
     }
+
+    processNames = (data: string,req:any): string[][] => {
+        let namesList: string[][] = [];
+        if (data.trim().includes(',')) {
+            let seperator = req.headers?.seperator ? req.headers?.seperator : ',';
+            let inputList = data.split(seperator);
+            for (let a of inputList) {
+                let names = a.trim().split('\r\n');
+                namesList.push(names);
+            }
+        } else {
+            let names = data.trim().split('\r\n');
+            namesList.push(names);
+        }
+        return namesList;
+    };
+
+    stripBom = (content: string): string => {
+        if (content.charCodeAt(0) === 0xFEFF) {
+            return content.slice(1);
+        }
+        return content;
+    };
+
+    updateXsdFile = async (xsdDataBuffer: any, newNamesList: any[], updatedXsdPath: string): Promise<void> => {
+        try {
+            // Read the XSD file with UTF-16 encoding and convert it to a UTF-8 string
+            let xsdData = iconv.decode(xsdDataBuffer, 'utf-16');
+            xsdData = this.stripBom(xsdData);
+
+            const parser = new xml2js.Parser({explicitArray: false});
+            const builder = new xml2js.Builder();
+
+            const result = await parser.parseStringPromise(xsdData).catch((err) => {
+                throw new Error(`Error parsing XSD file: ${err.message}`);
+            });
+
+            const elements = result['xs:schema']['xs:element'] || [];
+            const transaction = elements['xs:complexType']['xs:sequence']['xs:element'];
+            const isTransaction = Object.hasOwn(transaction["$"], 'name') ? transaction["$"]["name"] : '';
+
+            let childRecordList: any = [];
+            let transactionArray: any = [];
+            if (isTransaction) {
+                transactionArray = transaction['xs:complexType']['xs:sequence']['xs:element'];
+                if (transactionArray.length > 0) {
+                    transactionArray.forEach((element: any, index: number) => {
+                        childRecordList.push({name: Object.hasOwn(element["$"], 'name') ? element["$"]["name"] : '', idx: index});
+                    });
+                }
+            }
+
+            for (let childRecord of childRecordList) {
+                const foundObject = transactionArray.find((a: any) => a["$"] && a["$"]["name"].toLowerCase() === childRecord["name"].toLowerCase());
+                // const foundObject = transactionArray.find((a: any) => a.Object.hasOwn(a.$, childRecord.name));
+                if (foundObject) {
+                    let fieldElementList = foundObject['xs:complexType']['xs:sequence']['xs:element'];
+                    let sequenceNumber = foundObject['xs:annotation']['xs:appinfo']['b:recordInfo']["$"]["sequence_number"];
+                    if (fieldElementList.length > 0) {
+                        for (let [idx, elementName] of newNamesList[sequenceNumber - 1].entries()) {
+                            fieldElementList[idx]['$']['name'] = elementName.trim() !== '' ? elementName.trim().replace(/[\s.,*\/\-\|\\]+/g, '_') : fieldElementList[idx]['$']['name'];
+                        }
+                    }
+                }
+            }
+
+            const updatedXsdData = builder.buildObject(result);
+            fs.writeFileSync(updatedXsdPath, updatedXsdData, 'utf8');
+        } catch (error: any) {
+            console.error('Error updating XSD file:', error.message);
+            throw error; // Re-throw the error to handle it in the calling function
+        }
+    };
+
+    editXsdColumn = async (xsdDataBuffer: string, nameFileContent: string, updatedXsdFilePath: string,req:any): Promise<void> => {
+        try {
+            let newNames: any = await this.processNames(nameFileContent,req);
+            newNames = newNames.map((innerArray: any) => innerArray.filter(Boolean));
+            await this.updateXsdFile(xsdDataBuffer, newNames, updatedXsdFilePath);
+        } catch (error: any) {
+            console.error('Error editing XSD column:', error.message);
+            throw error; // Re-throw the error to handle it in the calling function
+        }
+    };
+
 }
 
 module.exports = CommonDao;
 
-// let segmentSeperator = data.slice(data.length - 1)
-// let segment = data.split(segmentSeperator)[0];
-// let splitArray = [...segment.split('*'), segmentSeperator];
-// value = value.replace(/~\u00A0|\u00A0|~\u200B|\u200B/g, '~');
-// let splitArray = data.split(segmentSeperator);
 
 
