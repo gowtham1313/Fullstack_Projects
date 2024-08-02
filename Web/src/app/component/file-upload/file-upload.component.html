@@ -1,0 +1,6 @@
+<div class="file-upload-container mat-background-primary" >
+  <h2>Upload Files</h2>
+  <input type="file" (change)="onFileSelected($event, 'file1')" />
+  <input type="file" (change)="onFileSelected($event, 'file2')" />
+  <button (click)="onUpload()">Upload</button>
+</div>
