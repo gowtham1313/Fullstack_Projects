@@ -77,10 +77,11 @@ class CommonController {
             let yvpResponse;
             if (data) {
                 yvpResponse = new commonAPIResponse(StatusCodes.OK, "CHANGE_FIELD_NAME", " ", "Success", [data]);
+                res.status(StatusCodes.OK).send(data);
             } else {
                 yvpResponse = new commonAPIResponse(StatusCodes.OK, "CHANGE_FIELD_NAME", " ", "Success", [{updatedXsdFilePath}]);
+                res.status(StatusCodes.OK).send(yvpResponse);
             }
-            res.status(StatusCodes.OK).send(yvpResponse);
         } catch (e: any) {
             // @ts-ignore
             if (parseInt(process.env.DEBUG) === 1) {
