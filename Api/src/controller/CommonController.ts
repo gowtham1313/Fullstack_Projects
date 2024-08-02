@@ -76,7 +76,7 @@ class CommonController {
             let data = await mainDao.editXsdColumn(xsdDataBuffer, nameFileContent, updatedXsdFilePath, req);
             let yvpResponse;
             if (data) {
-                yvpResponse = new commonAPIResponse(StatusCodes.OK, "CHANGE_FIELD_NAME", " ", "Success", [{data}]);
+                yvpResponse = new commonAPIResponse(StatusCodes.OK, "CHANGE_FIELD_NAME", " ", "Success", [data]);
             } else {
                 yvpResponse = new commonAPIResponse(StatusCodes.OK, "CHANGE_FIELD_NAME", " ", "Success", [{updatedXsdFilePath}]);
             }
