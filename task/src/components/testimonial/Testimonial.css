@@ -1,0 +1,112 @@
+.testimonials {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px;
+    color: white;
+    background-color: transparent;
+}
+
+.testimonial1 {
+    background-color: red;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+
+/* smaller screen */
+@media (max-width: 480px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+        margin: 10px auto;
+        font-size: 75%;
+    }
+}
+
+.card {
+    background-color: #25282d !important;
+    color: darkgrey !important;
+    padding: 20px;
+    border-radius: 10px !important;
+    max-width: fit-content;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    flex: 1 1 190px;
+    border: 1px solid transparent;
+    transition: border-color 1s ease-out;
+    border-width: 0px !important;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    transition: border-color 1s ease-out;
+    z-index: 0;
+}
+
+.card:hover::before {
+    animation: rotateBorder 1s linear ease;
+    border-color: #007bff;
+    border-radius: 10px;
+}
+
+@keyframes rotateBorder {
+    0% {
+        border-color: transparent;
+    }
+
+    100% {
+        border-color: #007bff;
+    }
+}
+
+.card>* {
+    position: relative;
+    z-index: 1;
+    border-radius: 10px;
+}
+
+.avatarStyle {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.textStyle {
+    position: relative;
+    text-align: start;
+}
+
+.countryStyle {
+    color: blue !important;
+    font-weight: bolder;
+    margin-left: 2%;
+}
+
+hr {
+    color: #25282d !important;
+    border-top: 1px solid black !important;
+    border-bottom: 2px solid darkgrey !important;
+    height: 5px;
+    box-shadow: 3px 3px 10px 8px #3a3d42;
+}

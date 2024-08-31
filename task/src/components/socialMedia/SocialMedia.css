@@ -1,0 +1,17 @@
+.socialmedialogo {
+    background-color: transparent;
+    padding: 20px;
+    text-align: end;
+}
+
+.social-media img {
+    margin: 0 10px;
+    width: 30px;
+    height: 30px;
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+}
+
+.social-media img:hover {
+    filter: brightness(0.8) invert(0.8);
+}

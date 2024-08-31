@@ -1,0 +1,17 @@
+.aboutStyle {
+    display: flex;
+    flex-direction: row;
+    font-size: medium;
+    text-align: start;
+    flex-direction: row;
+}
+
+.avatarStyle1 {
+    width: 25%;
+    height: 25%;
+    margin-bottom: 20px;
+}
+
+h6 {
+    color: darkgrey !important;
+}

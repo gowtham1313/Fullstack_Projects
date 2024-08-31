@@ -1,0 +1,87 @@
+.subscribe-form {
+    padding: 20px;
+    color: white;
+    background-image: url(../../assets/Blog_BannerSemTexto.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    display: flex;
+}
+
+
+.form-control {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.form-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+    color: antiquewhite !important;
+    background-color: blue;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-width: 0;
+}
+
+.form-input:focus {
+    border-color: black !important;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+
+.form-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: blue !important;
+    background-color: #fff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+    color: beige !important;
+}
+
+::placeholder {
+    color: antiquewhite !important;
+}
+
+/* smaller screens */
+@media (max-width: 480px) {
+    .form-control {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .form-input,
+    .form-button {
+        width: 100%;
+    }
+}
+
+/* larger screens (4K) */
+@media (min-width: 3840px) {
+    .form-input {
+        padding: 20px;
+        font-size: 1.5rem;
+    }
+
+    .form-button {
+        padding: 20px 40px;
+        font-size: 1.5rem;
+    }
+}
